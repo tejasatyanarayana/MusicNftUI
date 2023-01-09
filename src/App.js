@@ -55,28 +55,23 @@ function App() {
       .safeMint('0xDd8e88293F041270a539A3aF6ef358685e4782a7', tokenUri)
       .send({ from: accounts[0] })
   }
-
-  async function listenMusic(tokenID) {
-    console.log(tokenID);
-    // var z = await MusicNFT.methods.subscribers(0).call()
-    // if (z.contains(accounts[0])) {
-    //   handlePlay()
-    // } else {
-    //   await MusicNFT.methods
-    //     .ListenMusic(0)
-    //     .send({ from: accounts[0], value: web3.utils.toWei('0.01', 'ether') })
-    //   handlePlay()
-    // }
+  const listenMusic = async(url) => {
+    audioRef.current.src = url
     await MusicNFT.methods
-      .ListenMusic(tokenID)
-      .send({ from: accounts[0], value: web3.utils.toWei('0.01', 'ether') })
-    handlePlay()
+    .ListenMusic(1)
+    .send({ from: accounts[0], value: web3.utils.toWei('0.01', 'ether') })
+    audioRef.current.play()
   }
+  // async function listenMusic(tokenID) {
+  //   console.log(tokenID)
+  //   await MusicNFT.methods
+  //     .ListenMusic(1)
+  //     .send({ from: accounts[0], value: web3.utils.toWei('0.01', 'ether') })
+  //   handlePlay()
+  // }
 
   useEffect(() => {
     getAllDetails()
-
-    console.log(metaDataList)
   }, [])
   return (
     <div style={{ textAlign: 'center', marginTop: '100 px' }}>
@@ -121,7 +116,7 @@ function App() {
             justifyContent: 'center',
           }}
         >
-          {metaDataList.map((metaData,index) => {
+          {metaDataList.map((metaData) => {
             var image = metaData.image
             console.log(image)
             return (
@@ -148,7 +143,7 @@ function App() {
                   }}
                 >
                   <button
-                    onClick={listenMusic}
+                    onClick={() => listenMusic(metaData.animation_url)}
                     style={{
                       alignSelf: 'center',
                       padding: '10px 20px',
@@ -168,15 +163,21 @@ function App() {
                   >
                     stop
                   </button>
-                  <audio src={metaData.animation_url} ref={audioRef} controls/>
-                </div>
+                  <audio src={metaData.animation_url} ref={audioRef}  />
               </div>
-            )
-          })}
-        </div>
+            </div>
+          )
+        })}
       </div>
     </div>
-  )
+  </div>
+)
+
+
+
+
+
+  
 }
 export default App
 
