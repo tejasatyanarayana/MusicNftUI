@@ -174,7 +174,13 @@ function App() {
 )
 
 
-
+// {
+//   "name": "Linkin Park",
+//   "symbol": "LP",
+//   "description": " LP best hits",
+//   "image": "https://i.pinimg.com/564x/a5/a0/17/a5a017d26f9c2e5971c29fd86bc84c42.jpg",
+//   "animation_url": "http://codeskulptor-demos.commondatastorage.googleapis.com/descent/background%20music.mp3"
+// }
 
 
   
