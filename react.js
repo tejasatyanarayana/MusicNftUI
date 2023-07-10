@@ -152,3 +152,38 @@ const MiniDrawer = () => {
 };
 
 export default MiniDrawer;
+
+
+
+
+
+Object.keys(data).map((key) => {
+      const value = data[key];
+      if (Array.isArray(value)) {
+        return (
+          <div key={key}>
+            <p>{key}:</p>
+            <ul>
+              {value.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        );
+      } else if (typeof value === 'object') {
+        return (
+          <div key={key}>
+            <p>{key}:</p>
+            <ul>
+              {iterateJSON(value)}
+            </ul>
+          </div>
+        );
+      } else {
+        return (
+          <p key={key}>
+            {key}: {value}
+          </p>
+        );
+      }
+    });
