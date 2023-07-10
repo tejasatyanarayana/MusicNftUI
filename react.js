@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
+import React, { useState } from 'react';
+import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import MuiDrawer from '@mui/material/Drawer';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import Drawer from '@mui/material/Drawer';
+import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -20,10 +20,9 @@ import SendIcon from '@mui/icons-material/Send';
 import RequestQuoteTwoToneIcon from '@mui/icons-material/RequestQuoteTwoTone';
 import SwipeRightTwoToneIcon from '@mui/icons-material/SwipeRightTwoTone';
 
-
 const drawerWidth = 240;
 
-const openedMixin = (theme: Theme): CSSObject => ({
+const openedMixin = (theme) => ({
   width: drawerWidth,
   transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
@@ -32,7 +31,7 @@ const openedMixin = (theme: Theme): CSSObject => ({
   overflowX: 'hidden',
 });
 
-const closedMixin = (theme: Theme): CSSObject => ({
+const closedMixin = (theme) => ({
   transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -53,14 +52,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
-}
-
-
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({ theme, open }) => ({
+})(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
@@ -76,29 +70,10 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
-    ...(open && {
-      ...openedMixin(theme),
-      '& .MuiDrawer-paper': openedMixin(theme),
-    }),
-    ...(!open && {
-      ...closedMixin(theme),
-      '& .MuiDrawer-paper': closedMixin(theme),
-    }),
-  }),
-);
-
-
-
-export default function MiniDrawer() {
-  const [displayText, setDisplayText] = React.useState('');
+const MiniDrawer = () => {
+  const [displayText, setDisplayText] = useState('');
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -107,8 +82,9 @@ export default function MiniDrawer() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
   const handleSendRequest = (index) => {
-    setDisplayText(index); // Update the display text with the index
+    setDisplayText(index);
   };
 
   return (
@@ -129,7 +105,7 @@ export default function MiniDrawer() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            welcome 
+            welcome
           </Typography>
         </Toolbar>
       </AppBar>
@@ -141,7 +117,7 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {[ 'Send Request','Accept/Reject Request', 'My Requests'].map((text, index) => (
+          {['Send Request', 'Accept/Reject Request', 'My Requests'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 onClick={() => handleSendRequest(index)}
@@ -158,24 +134,21 @@ export default function MiniDrawer() {
                     justifyContent: 'center',
                   }}
                 >
-                  {index == 0 ? <SendIcon /> : index ==1 ?<SwipeRightTwoToneIcon />: <RequestQuoteTwoToneIcon />}
+                  {index === 0 ? <SendIcon /> : index === 1 ? <SwipeRightTwoToneIcon /> : <RequestQuoteTwoToneIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
-        
-        
       </Drawer>
 
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <Typography paragraph>
-          {displayText}
-        </Typography>
-        
+        <Typography paragraph>{displayText}</Typography>
       </Box>
     </Box>
   );
-}
+};
+
+export default MiniDrawer;
